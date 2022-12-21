@@ -71,7 +71,7 @@ class Detector:
                     x,y,w,h=bbox
 
                     cv.rectangle(image,(x,y),(x+w,y+h),color=classColor,thickness=1)
-                    cv.putText(image,displayText,(x,y-10),cv.FONT_HERSHEY_PLAIN,1,classColor,2)
+                    cv.putText(image,speech,(x,y-10),cv.FONT_HERSHEY_PLAIN,1,classColor,2)
                 ###################################################
                     linewidth=min(int(w*0.3),int(h*0.3))
 
@@ -97,8 +97,6 @@ class Detector:
                 myobj=gTTS(text=speech,lang=language, slow=False)
                 myobj.save("saved.mp3")
                 os.system("saved.mp3")
-
-                print(displayText,ct)
 
         
             cv.putText(image,"FPS:  "+str(int(fps)),(20,70),cv.FONT_HERSHEY_PLAIN,2,(0,255,0),2)
