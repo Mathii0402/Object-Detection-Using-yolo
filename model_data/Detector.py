@@ -1,9 +1,11 @@
 
+from cgitb import text
 from pickle import TRUE
 import cv2 as cv
 import numpy as np
 import time
-
+from gtts import gTTS
+import os
 
 class Detector:
     def __init__(self,videopath,configPath,modelPath,classesPath):
@@ -11,6 +13,7 @@ class Detector:
         self.configPath=configPath
         self.modelPath=modelPath
         self.classesPath=classesPath
+        
 
 
         self.net=cv.dnn_DetectionModel(self.modelPath,self.configPath)
@@ -31,6 +34,7 @@ class Detector:
     
 
     def onVideo(self):
+        language="en"
         cap=cv.VideoCapture(self.videopath)
 
         if(cap.isOpened()==False):
@@ -63,7 +67,7 @@ class Detector:
 
 
                     displayText="{}:{:.2f}".format(classLabel,classConfidence)
-
+                    speech=classLabel
                     x,y,w,h=bbox
 
                     cv.rectangle(image,(x,y),(x+w,y+h),color=classColor,thickness=1)
@@ -90,6 +94,10 @@ class Detector:
             ct=0
             if(int(currentTime)%5==0):
                 ct=ct+1
+                myobj=gTTS(text=speech,lang=language, slow=False)
+                myobj.save("saved.mp3")
+                os.system("saved.mp3")
+
                 print(displayText,ct)
 
         
